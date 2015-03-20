@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include <string>
 #include <random>
 #include <ctime>
@@ -27,8 +28,10 @@ int main()
     float dragonsDamageDealt = 350.0f;
     float currentDHealth = dragonsHealth;
 
+    //Number that is pulled from the generator
     float attackResult;
 
+    //Sets vikings to go first
     char turn = 'V';
 
     //Prompting user to give amount of warriors/storing amount
@@ -41,37 +44,47 @@ int main()
     cin >> numDragons;
     startsDragons = numDragons;
 
+    //Announces start of the battle
     cout << "\n**** Battle Beginning ****" << endl << endl;
 
 
-
-    while((numDragons >= 0) && (numVikings >= 0)){
+    //Battle loop
+    while((numDragons > 0) && (numVikings > 0)){
+        //If vikings turn
         if(turn == 'V') {
-            //Get attack result
+            //Get number from random
             attackResult = attack(randomGenerator);
-            //Was attack successful
+            //Was attack successful(in bounds of the attack)
             if(attackResult <= vikingsAttack){
                 currentDHealth -= vikingsDamageDealt;
+                cout << "Vikings hit succesfully!!" << endl;
 
-                //
+
+                //if hit was successful, and dragon life went below
+                //zero the dragon died so subtract a dragon
                 if(currentDHealth <= 0){
                     numDragons--;
+                    //reset health back to start
                     currentDHealth = dragonsHealth;
                 }
             }
+            //switch turn to dragons
             turn = 'D';
         }else{
-            //Get attack result
+            //same as above except backwards for dragons attacking
             attackResult = attack(randomGenerator);
 
             if(attackResult <= dragonsAttack) {
                 currentVHealth -= dragonsDamageDealt;
+                cout << "Dragons hit succesfully!!" << endl;
+
 
                 if(currentVHealth <= 0){
                     numVikings--;
                     currentVHealth = vikingsHealth;
                 }
             }
+            //switch turn to vikings
             turn = 'V';
         }
     }
