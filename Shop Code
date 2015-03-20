@@ -5,6 +5,7 @@ using namespace std;
 
 //Global constant variables.
 //so all functions can use, constant so they aren't changeable
+//global constants are okay, although you should avoid globals when possible
 const int inventoryNum = 4;
 const int numItems = 4;
 const int numPrices = 4;
@@ -21,8 +22,8 @@ int main()
     //To decide wether done buying or not
     bool isDone = false;
 
-
-    int playerInventory[inventoryNum] = {0, 0, 0, 1};
+    //Stores player inventory in an array
+    int playerInventory[inventoryNum] = {1, 0, 0, 1};
 
     //Welcome message to user
     cout << "**Welcome to the shop**" << endl;
@@ -32,6 +33,7 @@ int main()
         printShop();
         cout << "************\n\n";
         printInventory(playerInventory);
+        //returns true or false
         isDone = buyItems(playerInventory);
     }
 
