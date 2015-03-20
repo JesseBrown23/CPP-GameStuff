@@ -1,0 +1,92 @@
+#include <iostream>
+#include <string>
+#include <random>
+#include <ctime>
+
+using namespace std;
+
+int main()
+{
+    //Random generator for attack
+    mt19937 randomGenerator(time(0));
+    uniform_real_distribution<float> attack(0.0f, 1.0f);
+
+    //Viking properties
+    int numVikings;
+    int startsVikings;
+    float vikingsAttack = 0.6f;
+    float vikingsHealth = 250.0f;
+    float vikingsDamageDealt = 225.0f;
+    float currentVHealth = vikingsHealth;
+
+    //Dragon properties
+    int numDragons;
+    int startsDragons;
+    float dragonsAttack = 0.3f;
+    float dragonsHealth = 400.0f;
+    float dragonsDamageDealt = 350.0f;
+    float currentDHealth = dragonsHealth;
+
+    float attackResult;
+
+    char turn = 'V';
+
+    //Prompting user to give amount of warriors/storing amount
+    cout << "**** Vikings vs Dragons ****" << endl << endl;
+    cout << "Enter number of Vikings: ";
+    cin >> numVikings;
+    startsVikings = numVikings;
+
+    cout << "Enter number of Dragons: ";
+    cin >> numDragons;
+    startsDragons = numDragons;
+
+    cout << "\n**** Battle Beginning ****" << endl << endl;
+
+
+
+    while((numDragons >= 0) && (numVikings >= 0)){
+        if(turn == 'V') {
+            //Get attack result
+            attackResult = attack(randomGenerator);
+            //Was attack successful
+            if(attackResult <= vikingsAttack){
+                currentDHealth -= vikingsDamageDealt;
+
+                //
+                if(currentDHealth <= 0){
+                    numDragons--;
+                    currentDHealth = dragonsHealth;
+                }
+            }
+            turn = 'D';
+        }else{
+            //Get attack result
+            attackResult = attack(randomGenerator);
+
+            if(attackResult <= dragonsAttack) {
+                currentVHealth -= dragonsDamageDealt;
+
+                if(currentVHealth <= 0){
+                    numVikings--;
+                    currentVHealth = vikingsHealth;
+                }
+            }
+            turn = 'V';
+        }
+    }
+
+    cout << "**** Battle Ended ****" << endl;
+
+    if(numVikings > 1){
+        cout << "\n****Vikings won!****" << endl;
+        cout << "There are " << numVikings << " Vikings left" << endl;
+        cout << "Starting number of Dragons: " << startsDragons << endl << "Starting number of Vikings: " << startsVikings << endl;
+    }else{
+        cout << "\n****Dragons won!****" << endl;
+        cout << "There are " << numDragons << " Dragons left" << endl;
+        cout << "Starting number of Dragons: " << startsDragons << endl << "Starting number of Vikings: " << startsVikings << endl;
+    }
+
+    return 0;
+}
